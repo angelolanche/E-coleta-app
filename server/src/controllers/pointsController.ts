@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 import knex from '../database/connection';
 
 class PointsController {
-    async index(req: Request, res: Response) {
-        const { city , uf, items } = req.query;
-        console.log(city, uf, items);
+    async index(request: Request, res: Response) {
+        const { city , uf, items } = request.query;
 
         const parsedItems = String(items)
         .split(',')
@@ -21,8 +20,8 @@ class PointsController {
         return res.json({points});
     }
 
-    async show(req: Request, res: Response) {
-        const { id } = req.params;
+    async show(request: Request, res: Response) {
+        const { id } = request.params;
 
         const point = await knex('points').where('id', id).first();
 
@@ -38,7 +37,7 @@ class PointsController {
         return res.json({ point, items });
     }
 
-    async create(req: Request, res: Response) {
+    async create(request: Request, res: Response) {
         const {
             name,
             email,
@@ -48,7 +47,7 @@ class PointsController {
             city,
             uf,
             items
-        } = req.body;
+        } = request.body;
 
         const trx = await knex.transaction();
 
