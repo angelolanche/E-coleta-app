@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
 import * as Location from 'expo-location';
@@ -10,8 +10,8 @@ import api from '../../services/api';
 
 interface Item {
   id: number;
-  title: string;
   image_url: string;
+  title: string;
 }
 
 const Points = () => {
@@ -39,7 +39,7 @@ const Points = () => {
       setInitialPotision([latitude, longitude]);
     }
     loadPotision();
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     api.get('items').then(response => {
@@ -89,8 +89,9 @@ const Points = () => {
                         longitudeDelta: 0.014,
                     }}
                     >
-                        <Marker
+                        {/* <Marker
                         style={styles.mapMarker}
+                        icon={0}
                         onPress={hendleNavigateToDetail}
                         coordinate={{
                             latitude: -22.9745921,
@@ -100,7 +101,7 @@ const Points = () => {
                             <Image style={styles.mapMarkerImage} source={{ uri: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80'}} />
                             <Text style={styles.mapMarkerTitle}>Mercado</Text>
                           </View>
-                        </Marker>
+                        </Marker> */}
                     </MapView>
                   )}
               </View>
@@ -112,22 +113,13 @@ const Points = () => {
               contentContainerStyle={{ paddingHorizontal: 20}} 
               >
                 {items.map(item => (
-                  <TouchableOpacity 
-                  key={String(item.id)} 
-                  style={[
-                    styles.item,
-                    selectedItems.includes(item.id) ? styles.selectedItem : {}
-                  ]} 
-                  onPress={() => handleSelectItem(item.id)}
-                  activeOpacity={0.6}
-                  >
-                    <SvgUri width={42} height={42} uri={item.image_url} />
+                  <TouchableOpacity key={String(item.id)} style={[styles.item, selectedItems.includes(item.id) ? styles.selectedItem : {}]} onPress={() => handleSelectItem(item.id)} activeOpacity={0.6}>
+                    {/* <SvgUri width={42} height={42} uri={item.image_url} /> */}
                     <Text style={styles.itemTitle}>{item.title}</Text>
                   </TouchableOpacity>
                 ))}
-              </ScrollView>
+              </ScrollView> 
           </View>
-          
       </>
   );
 };
@@ -213,8 +205,7 @@ const styles = StyleSheet.create({
       marginRight: 8,
       alignItems: 'center',
       justifyContent: 'space-between',
-  
-      textAlign: 'center',
+      // textAlign: 'center',
     },
   
     selectedItem: {
@@ -224,7 +215,7 @@ const styles = StyleSheet.create({
   
     itemTitle: {
       fontFamily: 'Roboto_400Regular',
-      textAlign: 'center',
+      // textAlign: 'center',
       fontSize: 13,
     },
   });
